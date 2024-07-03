@@ -45,10 +45,14 @@ Datenbankinitialisierung:
 Beim ersten Start der Anwendung wird die H2 In-Memory-Datenbank automatisch mit Beispieldaten initialisiert. Diese Daten können über das Backend-Interface eingesehen und bearbeitet werden.
 
 3. **Nutzung der Anwendung**
-Sobald das Backend erfolgreich gestartet wurde, kann die Anwendung im Browser unter http://localhost:8080/ aufgerufen werden. Das Backend ist für registrierte Benutzer zugänglich, während das Frontend öffentlich verfügbar ist.
+Sobald das Backend erfolgreich gestartet wurde, kann die Anwendung im Browser unter http://localhost:8080/ aufgerufen werden.
+Das Backend ist für registrierte Benutzer zugänglich, während das Frontend öffentlich verfügbar ist.
 Das Backend kann erreicht werden unter: http://localhost:8080/co2data/
 
 Die Nutzerkennungen, die bereits angelegt sind, lauten:
+
 Joe_Scientist
+
 Mandy_Publisher
+
 Beide haben das Passwort: p123
