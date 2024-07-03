@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CO2 Data List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">LikeHeroToZero</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <span class="nav-link" id="user-info"></span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login" id="login-link">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-4 mb-5">
+    <h1>CO2 Data List</h1>
+    <div class="mb-3">
+        <select id="countryFilter" class="ml-3">
+            <option value="">All Countries</option>
+        </select>
+    </div>
+    <table id="co2dataTable" class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Emissions</th>
+            <th>Approved</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="co2data : ${co2dataList}">
+            <td th:text="${co2data.id}">ID</td>
+            <td th:text="${co2data.country}">Country</td>
+            <td th:text="${co2data.year}">Year</td>
+            <td th:text="${co2data.emissions}">Emissions</td>
+            <td>
+                <input type="checkbox" th:checked="${co2data.approved}" disabled>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    Data Source: <a href="https://data.worldbank.org/indicator/EN.ATM.CO2E.PC?most_recent_year_desc=false">CO2 emissions 1990-2020, World Bank Group</a>
+</div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">&copy; 2024 IU/Frederik Bernard</span>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Define the array of countries
+        var listOfCountries = ["Afghanistan",  "Africa Eastern and Southern",  "Africa Western and Central",  "Albania",  "Algeria",  "Andorra",  "Angola",  "Antigua and Barbuda",  "Arab World",  "Argentina",  "Armenia",  "Australia",  "Austria",  "Azerbaijan",  "Bahamas, The",  "Bahrain",  "Bangladesh",  "Barbados",  "Belarus",  "Belgium",  "Belize",  "Benin",  "Bhutan",  "Bolivia",  "Bosnia and Herzegovina",  "Botswana",  "Brazil",  "Brunei Darussalam",  "Bulgaria",  "Burkina Faso",  "Burundi",  "Cabo Verde",  "Cambodia",  "Cameroon",  "Canada",  "Caribbean small states",  "Central African Republic",  "Central Europe and the Baltics",  "Chad",  "Chile",  "China",  "Colombia",  "Comoros",  "Congo, Dem. Rep.",  "Congo, Rep.",  "Costa Rica",  "Cote d'Ivoire",  "Croatia",  "Cuba",  "Cyprus",  "Czechia",  "Denmark",  "Djibouti",  "Dominica",  "Dominican Republic",  "Early-demographic dividend",  "East Asia & Pacific",  "East Asia & Pacific (excluding high income)",  "East Asia & Pacific (IDA & IBRD countries)",  "Ecuador",  "Egypt, Arab Rep.",  "El Salvador",  "Equatorial Guinea",  "Eritrea",  "Estonia",  "Eswatini",  "Ethiopia",  "Euro area",  "Europe & Central Asia",  "Europe & Central Asia (excluding high income)",  "Europe & Central Asia (IDA & IBRD countries)",  "European Union",  "Fiji",  "Finland",  "Fragile and conflict affected situations",  "France",  "Gabon",  "Gambia, The",  "Georgia",  "Germany",  "Ghana",  "Greece",  "Grenada",  "Guatemala",  "Guinea",  "Guinea-Bissau",  "Guyana",  "Haiti",  "Heavily indebted poor countries (HIPC)",  "High income",  "Honduras",  "Hungary",  "IBRD only",  "Iceland",  "IDA & IBRD total",  "IDA blend",  "IDA only",  "IDA total",  "India",  "Indonesia",  "Iran, Islamic Rep.",  "Iraq",  "Ireland",  "Israel",  "Italy",  "Jamaica",  "Japan",  "Jordan",  "Kazakhstan",  "Kenya",  "Kiribati",  "Korea, Dem. People's Rep.",  "Korea, Rep.",  "Kuwait",  "Kyrgyz Republic",  "Lao PDR",  "Late-demographic dividend",  "Latin America & Caribbean",  "Latin America & Caribbean (excluding high income)",  "Latin America & the Caribbean (IDA & IBRD countries)",  "Latvia",  "Least developed countries: UN classification",  "Lebanon",  "Lesotho",  "Liberia",  "Libya",  "Liechtenstein",  "Lithuania",  "Low & middle income",  "Low income",  "Lower middle income",  "Luxembourg",  "Madagascar",  "Malawi",  "Malaysia",  "Maldives",  "Mali",  "Malta",  "Marshall Islands",  "Mauritania",  "Mauritius",  "Mexico",  "Micronesia, Fed. Sts.",  "Middle East & North Africa",  "Middle East & North Africa (excluding high income)",  "Middle East & North Africa (IDA & IBRD countries)",  "Middle income",  "Moldova",  "Mongolia",  "Montenegro",  "Morocco",  "Mozambique",  "Myanmar",  "Namibia",  "Nauru",  "Nepal",  "Netherlands",  "New Zealand",  "Nicaragua",  "Niger",  "Nigeria",  "North America",  "North Macedonia",  "Norway",  "OECD members",  "Oman",  "Other small states",  "Pacific island small states",  "Pakistan",  "Palau",  "Panama",  "Papua New Guinea",  "Paraguay",  "Peru",  "Philippines",  "Poland",  "Portugal",  "Post-demographic dividend",  "Pre-demographic dividend",  "Qatar",  "Romania",  "Russian Federation",  "Rwanda",  "Samoa",  "Sao Tome and Principe",  "Saudi Arabia",  "Senegal",  "Serbia",  "Seychelles",  "Sierra Leone",  "Singapore",  "Slovak Republic",  "Slovenia",  "Small states",  "Solomon Islands",  "Somalia",  "South Africa",  "South Asia",  "South Asia (IDA & IBRD)",  "South Sudan",  "Spain",  "Sri Lanka",  "St. Kitts and Nevis",  "St. Lucia",  "St. Vincent and the Grenadines",  "Sub-Saharan Africa",  "Sub-Saharan Africa (excluding high income)",  "Sub-Saharan Africa (IDA & IBRD countries)",  "Sudan",  "Suriname",  "Sweden",  "Switzerland",  "Syrian Arab Republic",  "Tajikistan",  "Tanzania",  "Thailand",  "Togo",  "Tonga",  "Trinidad and Tobago",  "Tunisia",  "Turkiye",  "Turkmenistan",  "Tuvalu",  "Uganda",  "Ukraine",  "United Arab Emirates",  "United Kingdom",  "United States",  "Upper middle income",  "Uruguay",  "Uzbekistan",  "Vanuatu",  "Venezuela, RB",  "Viet Nam",  "World",  "Yemen, Rep.",  "Zambia",  "Zimbabwe", ];
+        var countryFilter = document.getElementById('countryFilter');
+
+        // Populate the country filter with the array of countries
+        listOfCountries.forEach(function(country) {
+            var option = document.createElement('option');
+            option.text = country;
+            option.value = country;
+            countryFilter.add(option);
+        });
+
+        // Initialize DataTable
+        var table = $('#co2dataTable').DataTable({
+            order: []
+        });
+
+        // Country filter event
+        $('#countryFilter').on('change', function() {
+            var selectedCountry = $(this).val();
+            if (selectedCountry) {
+                table.column(1).search('^' + selectedCountry + '$', true, false).draw();
+            } else {
+                table.column(1).search('').draw();
+            }
+        });
+    });
+</script>
+</body>
+</html>
