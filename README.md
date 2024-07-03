@@ -30,7 +30,8 @@ cd likeherotozero
 
 2. **Backend konfigurieren und starten**
 
-Navigieren Sie in das Backend-Verzeichnis: /likeherotozero
+Navigieren Sie in das Backend-Verzeichnis:
+ /likeherotozero
 
 Abhängigkeiten installieren und Anwendung starten:
 
@@ -45,7 +46,7 @@ Beim ersten Start der Anwendung wird die H2 In-Memory-Datenbank automatisch mit 
 
 3. **Nutzung der Anwendung**
 Sobald das Backend erfolgreich gestartet wurde, kann die Anwendung im Browser unter http://localhost:8080/ aufgerufen werden. Das Backend ist für registrierte Benutzer zugänglich, während das Frontend öffentlich verfügbar ist.
-Das Backend kann erreicht werden unter: http://localhost:8080/
+Das Backend kann erreicht werden unter: http://localhost:8080/co2data/
 
 Die Nutzerkennungen, die bereits angelegt sind, lauten:
 Joe_Scientist
